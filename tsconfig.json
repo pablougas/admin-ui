@@ -4,6 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -12,20 +13,14 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
+      "webpack-env", 
       "jest"
+      // "vee-validate"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
@@ -34,7 +29,5 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

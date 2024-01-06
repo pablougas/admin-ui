@@ -1,32 +1,56 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <nav-drawer></nav-drawer>
+    <app-bar></app-bar>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from "vue";
+import AppBar from "@/components/layout/AppBar.vue";
+import NavDrawer from "./components/layout/NavDrawer.vue";
+import { setAuthHeader } from "./services/baseAPI";
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+export default Vue.extend({
+  name: "App",
+  components: { AppBar, NavDrawer },
+  data: () => ({
+    initializing: false,
+    initialized: false,
+    drawer: false,
+  }),
+  watch: {
+    "$auth.loading": {
+      async handler(bool: boolean) {
+        if (!bool) {
+          if (!this.initialized && !this.initializing) {
+            this.initializing = true;
+            this.initialize();
+          }
+        }
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    async initialize() {
+      try {
+        if (this.$auth.loading == false) {
+          await setAuthHeader();
+          // await this.handleUserRegistration();
+          this.initialized = true;
+        } else {
+          setTimeout(this.initialize, 300);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.initialized = true;
+      }
+    },
   }
-}
-</style>
+});
+</script>

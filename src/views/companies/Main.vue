@@ -1,11 +1,13 @@
 <template>
-  <div class="home">Home Page</div>
+  <router-view />
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "Home",
+  name: "Main",
 });
 </script>
+
+<style lang="scss" scoped></style>
